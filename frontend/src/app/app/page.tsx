@@ -149,8 +149,8 @@ export default function AegisDashboard() {
 
       const members = logs.map(log => log.args.commitment) as bigint[];
       setDaoMembers(members);
-    } catch (err) {
-      console.error("Failed to load DAO state:", err);
+    } catch (err: any) {
+      console.warn("Failed to load DAO state:", err.message || err);
     } finally {
       setLoading(false);
     }
@@ -175,8 +175,8 @@ export default function AegisDashboard() {
         args: [address, MOCK_ENTRYPOINT_ADDRESS]
       }) as bigint;
       setErc20Allowance(formatEther(allowance));
-    } catch (err) {
-      console.error("Failed to load ERC20 state:", err);
+    } catch (err: any) {
+      console.warn("Failed to load ERC20 state:", err.message || err);
     }
   };
 
@@ -508,6 +508,18 @@ export default function AegisDashboard() {
       {/* 2. Main Content Section (The Aegis Shell) */}
       <main className="flex-1 max-w-7xl w-full mx-auto p-6 md:p-8 flex flex-col gap-8 relative z-10">
         
+        {isConnected && chainId !== 31337 && (
+          <div className="bg-amber-500/10 border border-amber-500/20 text-amber-300 rounded-3xl p-5 flex gap-4 items-center">
+            <AlertCircle className="h-6 w-6 shrink-0 text-amber-400 animate-pulse" />
+            <div>
+              <h4 className="font-bold text-sm">Local Chain Disconnected</h4>
+              <p className="text-xs text-slate-400 font-light mt-0.5">
+                Please switch your wallet to the **Localhost** network (Chain ID: 31337, RPC: http://127.0.0.1:8545) to communicate with the deployed Aegis-DAO consensus contracts.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Banner Summary Area */}
         <section className="glass-panel rounded-3xl p-6 flex flex-col md:flex-row gap-6 justify-between items-center relative overflow-hidden">
           {/* subtle decoration orb background */}
