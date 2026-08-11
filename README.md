@@ -64,7 +64,9 @@ aegis-dao/
 │   │   ├── app/
 │   │   │   ├── layout.tsx        # Next.js main layout with Wagmi Providers
 │   │   │   ├── providers.tsx     # Wagmi & React Query configuration
-│   │   │   └── page.tsx          # Aegis-DAO main dashboard page
+│   │   │   ├── page.tsx          # Aegis-DAO Landing Page
+│   │   │   └── app/
+│   │   │       └── page.tsx      # Aegis-DAO main dashboard page
 │   │   ├── config.ts             # Deployed contract addresses & ABIs
 │   │   └── kohaku-helper.ts      # Kohaku precommitment generator helper
 │   ├── package.json
