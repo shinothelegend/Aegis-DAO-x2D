@@ -3,7 +3,7 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
-import { hardhat, sepolia } from 'wagmi/chains';
+import { sepolia } from 'wagmi/chains';
 import { 
   getDefaultConfig, 
   RainbowKitProvider, 
@@ -19,7 +19,7 @@ const queryClient = new QueryClient();
 export const config = getDefaultConfig({
   appName: 'Aegis-DAO',
   projectId: 'e89aa8b027e64db6929153c03190ca3e', // WalletConnect generic project ID
-  chains: [sepolia, hardhat],
+  chains: [sepolia],
   ssr: true, // SSR support enabled for Next.js App Router
 });
 

@@ -372,7 +372,7 @@ export default function AegisDashboard() {
         0, // Account index
         depositIndex,
         MOCK_ENTRYPOINT_ADDRESS,
-        chainId || 31337 // Dynamic chain ID from connected wallet, default to 31337
+        chainId || 11155111 // Dynamic chain ID from connected wallet, default to Sepolia (11155111)
       );
 
       setShieldStatus(`Depositing and shielding ${shieldAmount} aeUSD into treasury...`);
@@ -576,13 +576,13 @@ export default function AegisDashboard() {
       {/* 2. Main Content Section (The Aegis Shell) */}
       <main className="flex-1 max-w-7xl w-full mx-auto p-6 md:p-8 flex flex-col gap-8 relative z-10">
         
-        {isConnected && chainId !== 31337 && (
+        {isConnected && chainId !== 11155111 && (
           <div className="bg-amber-500/10 border border-amber-500/20 text-amber-300 rounded-3xl p-5 flex gap-4 items-center">
             <AlertCircle className="h-6 w-6 shrink-0 text-amber-400 animate-pulse" />
             <div>
-              <h4 className="font-bold text-sm">Local Chain Disconnected</h4>
+              <h4 className="font-bold text-sm">Wrong Network Connected</h4>
               <p className="text-xs text-slate-400 font-light mt-0.5">
-                Please switch your wallet to the **Localhost** network (Chain ID: 31337, RPC: http://127.0.0.1:8545) to communicate with the deployed Aegis-DAO consensus contracts.
+                Please switch your wallet to the **Sepolia Testnet** (Chain ID: 11155111) to communicate with the deployed Aegis-DAO consensus contracts for the hackathon.
               </p>
             </div>
           </div>
