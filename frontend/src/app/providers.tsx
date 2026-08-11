@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WagmiProvider } from 'wagmi';
+import { WagmiProvider, http } from 'wagmi';
 import { sepolia } from 'wagmi/chains';
 import { 
   getDefaultConfig, 
@@ -20,6 +20,9 @@ export const config = getDefaultConfig({
   appName: 'Aegis-DAO',
   projectId: '3a8170812b534d0f39bdae410dce196c', // Valid public WalletConnect project ID for testing
   chains: [sepolia],
+  transports: {
+    [sepolia.id]: http('https://eth-sepolia.g.alchemy.com/v2/alch_NA2r4Tb4BPLsaj7nFzzZX'),
+  },
   ssr: true, // SSR support enabled for Next.js App Router
 });
 
