@@ -40,6 +40,7 @@ import {
 } from '../../config';
 import { generatePrecommitment } from '../../kohaku-helper';
 import { StarsBackground } from '../components/stars-background';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 // Framer Motion Animation Settings
 const containerVariants = {
@@ -481,27 +482,94 @@ export default function AegisDashboard() {
         </div>
 
         <div className="flex items-center gap-4">
-          {isConnected ? (
-            <div className="flex items-center gap-3">
-              <div className="hidden md:flex flex-col text-right font-mono text-xs text-slate-400">
-                <span className="text-[9px] uppercase tracking-wider text-slate-500">Connected Wallet</span>
-                <span className="text-cyan-400 font-medium">{address?.slice(0, 6)}...{address?.slice(-4)}</span>
-              </div>
-              <button 
-                onClick={() => disconnect()}
-                className="px-4 py-2 text-xs font-semibold bg-zinc-950/80 hover:bg-red-950/20 border border-white/15 hover:border-red-500/40 hover:text-red-400 rounded-full transition-all duration-300 shadow-md"
-              >
-                Disconnect
-              </button>
-            </div>
-          ) : (
-            <button 
-              onClick={() => connect({ connector: injected() })}
-              className="px-5 py-2.5 text-xs font-semibold bg-zinc-950 border border-cyan-500/50 hover:border-cyan-400 text-cyan-400 hover:text-white hover:bg-cyan-500/10 rounded-full transition-all duration-300 cyan-glow"
-            >
-              Connect Wallet
-            </button>
-          )}
+          <ConnectButton.Custom>
+            {({
+              account,
+              chain,
+              openAccountModal,
+              openChainModal,
+              openConnectModal,
+              authenticationStatus,
+              mounted,
+            }) => {
+              const ready = mounted && authenticationStatus !== 'loading';
+              const connected =
+                ready &&
+                account &&
+                chain &&
+                (!authenticationStatus || authenticationStatus === 'authenticated');
+
+              return (
+                <div
+                  {...(!ready && {
+                    'aria-hidden': true,
+                    style: {
+                      opacity: 0,
+                      pointerEvents: 'none',
+                      userSelect: 'none',
+                    },
+                  })}
+                  className="flex items-center gap-3"
+                >
+                  {(() => {
+                    if (!connected) {
+                      return (
+                        <button
+                          onClick={openConnectModal}
+                          type="button"
+                          className="px-5 py-2.5 text-xs font-semibold bg-zinc-950 border border-cyan-500/50 hover:border-cyan-400 text-cyan-400 hover:text-white hover:bg-cyan-500/10 rounded-full transition-all duration-300 shadow-[0_0_20px_-10px_#06B6D4] cursor-pointer"
+                        >
+                          Connect Wallet
+                        </button>
+                      );
+                    }
+
+                    if (chain.unsupported) {
+                      return (
+                        <button
+                          onClick={openChainModal}
+                          type="button"
+                          className="px-5 py-2.5 text-xs font-semibold bg-red-950/40 border border-red-500/50 hover:border-red-400 text-red-400 rounded-full transition-all duration-300 cursor-pointer shadow-[0_0_20px_-10px_#EF4444]"
+                        >
+                          Wrong Network
+                        </button>
+                      );
+                    }
+
+                    return (
+                      <div className="flex items-center gap-3">
+                        {/* Chain Selector */}
+                        <button
+                          onClick={openChainModal}
+                          type="button"
+                          className="hidden md:flex items-center gap-1.5 px-4 py-2 text-xs font-semibold bg-zinc-900 border border-white/10 hover:border-white/20 text-slate-300 rounded-full transition-all duration-300 cursor-pointer"
+                        >
+                          {chain.hasIcon && chain.iconUrl && (
+                            <img
+                              alt={chain.name ?? 'Chain icon'}
+                              src={chain.iconUrl}
+                              className="w-4 h-4 rounded-full"
+                            />
+                          )}
+                          {chain.name}
+                        </button>
+
+                        {/* Account Details in JetBrains Mono */}
+                        <button
+                          onClick={openAccountModal}
+                          type="button"
+                          className="px-5 py-2.5 text-xs font-mono font-bold bg-zinc-900 border border-white/10 hover:border-white/20 text-slate-200 rounded-full transition-all duration-300 cursor-pointer"
+                        >
+                          {account.displayName}
+                          {account.displayBalance ? ` (${account.displayBalance})` : ''}
+                        </button>
+                      </div>
+                    );
+                  })()}
+                </div>
+              );
+            }}
+          </ConnectButton.Custom>
         </div>
       </header>
 
