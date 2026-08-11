@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter } from "next/font/google";
+import { Henny_Penny, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
+const hennyPenny = Henny_Penny({
+  variable: "--font-henny-penny",
   subsets: ["latin"],
   weight: ["400"],
 });
@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSerif.variable} ${inter.variable} h-full antialiased`}
+      className={`${hennyPenny.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-[#030303] text-slate-100 font-sans">
         <Providers>{children}</Providers>
