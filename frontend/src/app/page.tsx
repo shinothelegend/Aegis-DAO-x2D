@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { StarsBackground } from './components/stars-background';
 
-// Staggered Entrance Variants
+// Staggered Entrance Variants for Grid Cards
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -31,8 +31,33 @@ const itemVariants = {
     y: 0,
     transition: {
       type: 'spring',
-      stiffness: 70,
-      damping: 14
+      stiffness: 80,
+      damping: 16
+    }
+  }
+} as const;
+
+// Hero Sequential Animation Variants
+const heroContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.1
+    }
+  }
+} as const;
+
+const heroItemVariants = {
+  hidden: { opacity: 0, y: 25 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 90,
+      damping: 16
     }
   }
 } as const;
@@ -43,8 +68,13 @@ export default function AegisLandingPage() {
       {/* Module A: The Continuous Cosmos Background */}
       <StarsBackground speed={150} factor={0.08} pointerEvents={true} />
 
-      {/* 1. Top Navigation Bar */}
-      <header className="fixed top-0 left-0 w-full z-50 glass-panel border-b border-white/10 px-6 py-4 flex items-center justify-between shadow-2xl">
+      {/* 1. Top Navigation Bar - Animated Entrance */}
+      <motion.header 
+        className="fixed top-0 left-0 w-full z-50 glass-panel border-b border-white/10 px-6 py-4 flex items-center justify-between shadow-2xl"
+        initial={{ opacity: 0, y: -25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 100, damping: 15 }}
+      >
         <div className="flex items-center gap-3">
           <div className="p-2 bg-gradient-to-tr from-cyan-500/20 to-purple-500/20 rounded-xl border border-cyan-500/30">
             <Shield className="h-6 w-6 text-cyan-400" />
@@ -59,48 +89,89 @@ export default function AegisLandingPage() {
           </div>
         </div>
 
-        <div>
+        <motion.div
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+        >
           <Link href="/app" className="px-6 py-2.5 text-xs font-semibold bg-zinc-950 border border-cyan-500/50 hover:border-cyan-400 text-cyan-400 hover:text-white hover:bg-cyan-500/10 rounded-full transition-all duration-300 cyan-glow flex items-center gap-1.5 cursor-pointer">
             Launch App
             <ChevronRight className="h-3.5 w-3.5" />
           </Link>
-        </div>
-      </header>
+        </motion.div>
+      </motion.header>
 
       {/* 2. Hero Section (The Hook) */}
       <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 overflow-hidden z-10">
-        {/* Module A (Decoration): Massive, soft Violet and Cyan blurred floating orbs */}
-        <div className="absolute top-1/4 left-1/4 w-72 md:w-96 h-72 md:h-96 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none animate-float-1 z-0"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-72 md:w-96 h-72 md:h-96 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none animate-float-2 z-0"></div>
+        {/* Module A (Decoration): Massive, soft Violet and Cyan blurred floating orbs (Animated with Framer Motion) */}
+        <motion.div 
+          className="absolute top-1/4 left-1/4 w-72 md:w-96 h-72 md:h-96 bg-purple-500/10 rounded-full blur-[120px] pointer-events-none z-0"
+          animate={{
+            x: [0, 50, -30, 0],
+            y: [0, -60, 40, 0],
+            scale: [1, 1.15, 0.9, 1]
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-1/4 right-1/4 w-72 md:w-96 h-72 md:h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none z-0"
+          animate={{
+            x: [0, -50, 40, 0],
+            y: [0, 60, -30, 0],
+            scale: [1, 0.9, 1.1, 1]
+          }}
+          transition={{
+            duration: 22,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
 
         <motion.div 
           className="relative z-10 max-w-4xl flex flex-col items-center gap-6"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ type: 'spring', stiffness: 50, damping: 15, delay: 0.1 }}
+          variants={heroContainerVariants}
+          initial="hidden"
+          animate="visible"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/5 text-purple-300 text-xs font-mono tracking-wide mb-2 uppercase">
+          <motion.div 
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/5 text-purple-300 text-xs font-mono tracking-wide mb-2 uppercase"
+            variants={heroItemVariants}
+          >
             <Sparkles className="h-3 w-3 text-purple-400 animate-pulse" />
             ZK Governance & Shielded Pools
-          </div>
+          </motion.div>
 
-          {/* Headline - Henny Penny (font-serif) with Text Shimmer */}
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif text-shimmer tracking-tight font-medium leading-none max-w-3xl">
+          {/* Headline - Space Grotesk (font-serif) with Text Shimmer */}
+          <motion.h2 
+            className="text-5xl md:text-7xl lg:text-8xl font-serif text-shimmer tracking-tight font-medium leading-none max-w-3xl"
+            variants={heroItemVariants}
+          >
             Governance Without Compromise.
-          </h2>
+          </motion.h2>
 
           {/* Subheadline - Inter */}
-          <p className="text-slate-400 text-base md:text-xl font-light max-w-2xl leading-relaxed">
+          <motion.p 
+            className="text-slate-400 text-base md:text-xl font-light max-w-2xl leading-relaxed"
+            variants={heroItemVariants}
+          >
             A privacy-first decentralized autonomous organization powered by Zero-Knowledge Proofs and Shielded Treasuries. Verify membership, cast consensus votes, and shield pool assets anonymously.
-          </p>
+          </motion.p>
 
           {/* CTA: Massive, glowing Violet button */}
-          <div className="mt-4">
+          <motion.div 
+            className="mt-4" 
+            variants={heroItemVariants}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+          >
             <Link href="/app" className="inline-flex items-center gap-2 px-10 py-4 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-full text-sm transition-all duration-300 shadow-[0_0_30px_-5px_#8B5CF6] hover:shadow-[0_0_40px_0_#8B5CF6] transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
               Launch App
               <ArrowRight className="h-4 w-4" />
             </Link>
-          </div>
+          </motion.div>
         </motion.div>
       </section>
 
@@ -125,15 +196,22 @@ export default function AegisLandingPage() {
         >
           {/* Card 1 */}
           <motion.div 
-            className="glass-panel rounded-3xl p-8 flex flex-col gap-6 relative group overflow-hidden transition-all duration-300 hover:border-cyan-500/30 hover:shadow-[0_0_20px_-10px_#06B6D4]"
+            className="glass-panel rounded-3xl p-8 flex flex-col gap-6 relative group overflow-hidden transition-all duration-300"
             variants={itemVariants}
+            whileHover={{ 
+              y: -8, 
+              scale: 1.02,
+              borderColor: 'rgba(6, 182, 212, 0.35)',
+              boxShadow: '0 0 25px -5px rgba(6, 182, 212, 0.15)'
+            }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
           >
             {/* Ambient hover glowing backdrop */}
             <div className="absolute -inset-4 bg-cyan-500/5 rounded-full blur-[40px] opacity-0 group-hover:opacity-100 transition duration-500"></div>
             
             <div className="relative z-10">
               <div className="p-3 bg-cyan-500/10 rounded-2xl text-cyan-400 border border-cyan-500/20 inline-block mb-6">
-                <Shield className="h-6 w-6" />
+                <Shield className="h-6 w-6 animate-pulse" />
               </div>
               <h4 className="text-xl font-serif text-white mb-3">Anonymous Voting</h4>
               <p className="text-slate-400 text-sm font-light leading-relaxed">
@@ -144,8 +222,15 @@ export default function AegisLandingPage() {
 
           {/* Card 2 */}
           <motion.div 
-            className="glass-panel rounded-3xl p-8 flex flex-col gap-6 relative group overflow-hidden transition-all duration-300 hover:border-purple-500/30 hover:shadow-[0_0_20px_-10px_#8B5CF6]"
+            className="glass-panel rounded-3xl p-8 flex flex-col gap-6 relative group overflow-hidden transition-all duration-300"
             variants={itemVariants}
+            whileHover={{ 
+              y: -8, 
+              scale: 1.02,
+              borderColor: 'rgba(139, 92, 246, 0.35)',
+              boxShadow: '0 0 25px -5px rgba(139, 92, 246, 0.15)'
+            }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
           >
             {/* Ambient hover glowing backdrop */}
             <div className="absolute -inset-4 bg-purple-500/5 rounded-full blur-[40px] opacity-0 group-hover:opacity-100 transition duration-500"></div>
@@ -163,8 +248,15 @@ export default function AegisLandingPage() {
 
           {/* Card 3 */}
           <motion.div 
-            className="glass-panel rounded-3xl p-8 flex flex-col gap-6 relative group overflow-hidden transition-all duration-300 hover:border-emerald-500/30 hover:shadow-[0_0_20px_-10px_#10B981]"
+            className="glass-panel rounded-3xl p-8 flex flex-col gap-6 relative group overflow-hidden transition-all duration-300"
             variants={itemVariants}
+            whileHover={{ 
+              y: -8, 
+              scale: 1.02,
+              borderColor: 'rgba(16, 185, 129, 0.35)',
+              boxShadow: '0 0 25px -5px rgba(16, 185, 129, 0.15)'
+            }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
           >
             {/* Ambient hover glowing backdrop */}
             <div className="absolute -inset-4 bg-emerald-500/5 rounded-full blur-[40px] opacity-0 group-hover:opacity-100 transition duration-500"></div>
