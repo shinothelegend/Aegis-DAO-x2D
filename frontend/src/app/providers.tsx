@@ -18,7 +18,7 @@ const queryClient = new QueryClient();
 // Setup Multi-Wallet configuration using RainbowKit's getDefaultConfig helper
 export const config = getDefaultConfig({
   appName: 'Aegis-DAO',
-  projectId: 'e89aa8b027e64db6929153c03190ca3e', // WalletConnect generic project ID
+  projectId: '3a8170812b534d0f39bdae410dce196c', // Valid public WalletConnect project ID for testing
   chains: [sepolia],
   ssr: true, // SSR support enabled for Next.js App Router
 });

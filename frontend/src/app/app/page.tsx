@@ -138,6 +138,10 @@ export default function AegisDashboard() {
       setProposals(props.reverse()); // Newest first
 
       // 3. Fetch DAO group members via events
+      // Use current block - 50000 to prevent RPC range limits on public testnets
+      const currentBlock = await publicClient.getBlockNumber();
+      const fromBlock = currentBlock > 50000n ? currentBlock - 50000n : 0n;
+
       const logs = await publicClient.getLogs({
         address: AEGIS_DAO_ADDRESS,
         event: {
@@ -145,7 +149,7 @@ export default function AegisDashboard() {
           name: 'MemberJoined',
           inputs: [{ type: 'uint256', name: 'commitment', indexed: true }]
         },
-        fromBlock: 0n
+        fromBlock: fromBlock
       });
 
       const members = logs.map(log => log.args.commitment) as bigint[];
