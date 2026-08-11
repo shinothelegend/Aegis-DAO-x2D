@@ -10,7 +10,7 @@
   --color-vantablack: #030303;
 
   --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
-  --font-serif: var(--font-henny-penny), Georgia, serif;
+  --font-serif: var(--font-space-grotesk), sans-serif;
 }
 
 body {
