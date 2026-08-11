@@ -60,11 +60,9 @@ export default function AegisLandingPage() {
         </div>
 
         <div>
-          <Link href="/app" passHref legacyBehavior>
-            <a className="px-6 py-2.5 text-xs font-semibold bg-zinc-950 border border-cyan-500/50 hover:border-cyan-400 text-cyan-400 hover:text-white hover:bg-cyan-500/10 rounded-full transition-all duration-300 cyan-glow flex items-center gap-1.5 cursor-pointer">
-              Launch App
-              <ChevronRight className="h-3.5 w-3.5" />
-            </a>
+          <Link href="/app" className="px-6 py-2.5 text-xs font-semibold bg-zinc-950 border border-cyan-500/50 hover:border-cyan-400 text-cyan-400 hover:text-white hover:bg-cyan-500/10 rounded-full transition-all duration-300 cyan-glow flex items-center gap-1.5 cursor-pointer">
+            Launch App
+            <ChevronRight className="h-3.5 w-3.5" />
           </Link>
         </div>
       </header>
@@ -98,11 +96,9 @@ export default function AegisLandingPage() {
 
           {/* CTA: Massive, glowing Violet button */}
           <div className="mt-4">
-            <Link href="/app" passHref legacyBehavior>
-              <a className="inline-flex items-center gap-2 px-10 py-4 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-full text-sm transition-all duration-300 shadow-[0_0_30px_-5px_#8B5CF6] hover:shadow-[0_0_40px_0_#8B5CF6] transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
-                Launch App
-                <ArrowRight className="h-4 w-4" />
-              </a>
+            <Link href="/app" className="inline-flex items-center gap-2 px-10 py-4 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-full text-sm transition-all duration-300 shadow-[0_0_30px_-5px_#8B5CF6] hover:shadow-[0_0_40px_0_#8B5CF6] transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
+              Launch App
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </motion.div>
