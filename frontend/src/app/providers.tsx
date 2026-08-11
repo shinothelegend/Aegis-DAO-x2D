@@ -10,6 +10,12 @@ import {
   darkTheme, 
   Theme 
 } from '@rainbow-me/rainbowkit';
+import { 
+  metaMaskWallet, 
+  rabbyWallet, 
+  coinbaseWallet, 
+  braveWallet 
+} from '@rainbow-me/rainbowkit/wallets';
 
 import '@rainbow-me/rainbowkit/styles.css';
 
@@ -18,7 +24,13 @@ const queryClient = new QueryClient();
 // Setup Multi-Wallet configuration using RainbowKit's getDefaultConfig helper
 export const config = getDefaultConfig({
   appName: 'Aegis-DAO',
-  projectId: '3a8170812b534d0f39bdae410dce196c', // Valid public WalletConnect project ID for testing
+  projectId: '3a8170812b534d0f39bdae410dce196c',
+  wallets: [
+    {
+      groupName: 'Supported Wallets',
+      wallets: [metaMaskWallet, rabbyWallet, braveWallet, coinbaseWallet],
+    },
+  ],
   chains: [sepolia],
   transports: {
     [sepolia.id]: http('https://eth-sepolia.g.alchemy.com/v2/alch_NA2r4Tb4BPLsaj7nFzzZX'),

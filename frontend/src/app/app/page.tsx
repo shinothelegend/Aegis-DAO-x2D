@@ -138,9 +138,9 @@ export default function AegisDashboard() {
       setProposals(props.reverse()); // Newest first
 
       // 3. Fetch DAO group members via events
-      // Use current block - 50000 to prevent RPC range limits on public testnets
+      // Use current block - 10 to prevent Alchemy Free Tier 10-block RPC limit
       const currentBlock = await publicClient.getBlockNumber();
-      const fromBlock = currentBlock > 50000n ? currentBlock - 50000n : 0n;
+      const fromBlock = currentBlock > 10n ? currentBlock - 10n : 0n;
 
       const logs = await publicClient.getLogs({
         address: AEGIS_DAO_ADDRESS,
