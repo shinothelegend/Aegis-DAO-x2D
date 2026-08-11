@@ -104,3 +104,74 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #3f3f46;
 }
+
+/* Custom Aegis-DAO CSS Aurora Effect */
+.aurora {
+  position: relative;
+  overflow: hidden;
+  /* Vantablack Base */
+  background-color: #030303;
+  /* Soft color blooms tuned to Aegis-DAO palette: Cyan, Violet, Indigo, Emerald */
+  background-image:
+    radial-gradient(40% 50% at 20% 30%, rgba(6, 182, 212, 0.45) 0%, transparent 70%),   /* Cyan Glow */
+    radial-gradient(45% 45% at 75% 20%, rgba(139, 92, 246, 0.4) 0%, transparent 80%),   /* Violet Glow */
+    radial-gradient(50% 50% at 80% 80%, rgba(79, 70, 229, 0.35) 0%, transparent 70%),   /* Indigo/Purple Glow */
+    radial-gradient(40% 40% at 30% 80%, rgba(16, 185, 129, 0.25) 0%, transparent 70%);  /* Emerald Glow */
+}
+
+/* 
+  The ::before element creates a conic gradient that spins and scales slowly.
+  It is strongly blurred to create soft, shifting "northern lights" streaks across the fixed radial background above.
+*/
+.aurora::before {
+  content: "";
+  position: absolute;
+  /* Make it much larger than container to ensure seamless spinning */
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  /* Aurora shifting conic gradient */
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(6, 182, 212, 0.1) 60deg,
+    rgba(139, 92, 246, 0.15) 120deg,
+    transparent 180deg,
+    rgba(79, 70, 229, 0.1) 240deg,
+    rgba(16, 185, 129, 0.05) 300deg,
+    transparent 360deg
+  );
+  filter: blur(80px);
+  animation: aurora-spin 25s linear infinite;
+  z-index: 0; /* Keep it strictly behind the panel content */
+  pointer-events: none;
+}
+
+@keyframes aurora-spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+/* 
+  The actual panel inside the aurora container. 
+  It receives the sharp 4px border radius and glassmorphic blur.
+*/
+.aurora-panel {
+  position: relative;
+  z-index: 1; /* Sits above the spinning ::before */
+  background: rgba(10, 10, 10, 0.65); /* Dark base over the aurora */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  /* Sharp tech border */
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}

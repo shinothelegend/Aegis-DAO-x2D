@@ -64,7 +64,7 @@ const heroItemVariants = {
 
 export default function AegisLandingPage() {
   return (
-    <div className="relative min-h-screen flex flex-col text-slate-200 overflow-x-hidden font-sans bg-[#030303]">
+    <div className="relative min-h-screen flex flex-col text-slate-200 overflow-x-hidden font-sans bg-[#030303] aurora">
       {/* Module A: The Continuous Cosmos Background */}
       <StarsBackground speed={150} factor={0.08} pointerEvents={true} />
 
@@ -131,7 +131,7 @@ export default function AegisLandingPage() {
         />
 
         <motion.div 
-          className="relative z-10 max-w-4xl flex flex-col items-center gap-6"
+          className="relative z-10 max-w-4xl flex flex-col items-center gap-6 aurora-panel p-8 md:p-12"
           variants={heroContainerVariants}
           initial="hidden"
           animate="visible"
